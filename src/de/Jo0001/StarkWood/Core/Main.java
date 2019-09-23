@@ -19,29 +19,23 @@ public class Main extends Application {
     private static HttpURLConnection con;
     static final FXMLLoader loader = new FXMLLoader();
 
-    LoadingController lControl = new LoadingController();
-
     @Override
     public void start(Stage primaryStage) throws Exception {
-       /* Controller controller = loader.getController();
-        loader.setController(controller);*/
-       LoadingController loadingController =loader.getController();
-       loader.setController(loadingController);
+        Controller controller = loader.getController();
+        loader.setController(controller);
+      /* LoadingController loadingController =loader.getController();
+       loader.setController(loadingController);*/
 
-        Parent root = loader.load(getClass().getResource("/fxml/loadScreen.fxml"));
+        Parent root = loader.load(getClass().getResource("/fxml/sample.fxml"));
         primaryStage.setTitle("StarkWood");
         primaryStage.setScene(new Scene(root, 310, 235));
         primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/icon.png")));
         primaryStage.resizableProperty().setValue(Boolean.FALSE);
         primaryStage.getScene().getStylesheets().add(getClass().getResource("/fxml/style.css").toExternalForm());
         primaryStage.show();
-
-
-
-        getInfo();
     }
 
-    public void getInfo() throws IOException {
+    public static void getInfo() throws IOException {
         System.out.println("Laden . . .");
         final URL myurl = new URL("https://www.dropbox.com/s/h3kvtvzy9i5kmr4/infos.starkwood?dl=1");
         con = (HttpURLConnection) myurl.openConnection();
@@ -61,7 +55,7 @@ public class Main extends Application {
         updateCheck(infos[7]);
     }
 
-    public void updateCheck(String ver){
+    public static void updateCheck(String ver){
         final String cVer = "1.1";
         if (cVer.equalsIgnoreCase(ver)) {
             System.out.println("Aktuell");
@@ -73,7 +67,7 @@ public class Main extends Application {
 
     }
 
-    public void alert(String text){
+    public static void alert(String text){
 
         Alert alert = new Alert(Alert.AlertType.WARNING, text);
         alert.setHeaderText(null);
