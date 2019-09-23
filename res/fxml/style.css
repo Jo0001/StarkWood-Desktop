@@ -1,0 +1,10 @@
+#loadScreen {
+-fx-background-color: #717d7e;
+}
+#mainScreen{
+-fx-background-color: #717d7e;
+-fx-background-image: url("/background.png");
+-fx-background-position: left top;
+-fx-background-repeat: no-repeat;
+-fx-background-size: cover;
+}
