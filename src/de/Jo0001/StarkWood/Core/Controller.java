@@ -8,7 +8,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -22,25 +21,18 @@ public class Controller implements Initializable {
         System.out.println("Controller loading");
     }
 
-    public void onBtnPress(ActionEvent buttonEvent) throws IOException {
-        btn.setText("Laden . . .");
-        Download.startDownload(slc.getSelectionModel().getSelectedIndex());
-        btn.setText("Herunterladen");
-
-
+    public void onBtnPress(ActionEvent buttonEvent) {
+        Download download = new Download(slc.getSelectionModel().getSelectedIndex());
+        download.start();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //@FXML-Fields are initialized
-      btn.setOnAction(new EventHandler<ActionEvent>() {
+        btn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                try {
-                    onBtnPress(actionEvent);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                onBtnPress(actionEvent);
             }
         });
     }

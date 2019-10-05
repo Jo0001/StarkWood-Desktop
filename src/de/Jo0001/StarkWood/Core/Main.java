@@ -4,10 +4,10 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -18,6 +18,8 @@ import java.net.UnknownHostException;
 public class Main extends Application {
     private static HttpURLConnection con;
     static final FXMLLoader loader = new FXMLLoader();
+
+    //TODO Add error Alerts
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -35,7 +37,7 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    public static void getInfo() throws IOException {
+    public static void getInfo() throws IOException, AWTException {
         System.out.println("Laden . . .");
         final URL myurl = new URL("https://www.dropbox.com/s/h3kvtvzy9i5kmr4/infos.starkwood?dl=1");
         con = (HttpURLConnection) myurl.openConnection();
@@ -55,24 +57,30 @@ public class Main extends Application {
         updateCheck(infos[7]);
     }
 
-    public static void updateCheck(String ver){
+    public static void updateCheck(String ver) throws AWTException {
         final String cVer = "1.1";
         if (cVer.equalsIgnoreCase(ver)) {
             System.out.println("Aktuell");
         } else {
-            System.err.println("Veraltete Version, bitte downloade die neuste Version von LINK");
-            System.exit(400);
+            System.err.println("Veraltete Version, bitte downloade die neuste Version dieses Tools");
+            alert("Veraltete Version, bitte downloade die neuste Version dieses Tools");
+            System.exit(-99);
         }
 
 
     }
 
-    public static void alert(String text){
-
-        Alert alert = new Alert(Alert.AlertType.WARNING, text);
-        alert.setHeaderText(null);
-        alert.setResizable(false);
-        alert.showAndWait();
+    public static void alert( String text) throws AWTException {
+        SystemTray tray = SystemTray.getSystemTray();
+        java.awt.Image image = Toolkit.getDefaultToolkit().createImage(Main.class.getResource("/icon.png"));
+        TrayIcon trayIcon = new TrayIcon(image, text);
+        // Let the system resize the image if needed
+        trayIcon.setImageAutoSize(true);
+        // Set tooltip text for the tray icon (in der Taskleiste)
+        trayIcon.setToolTip("StarkWood");
+        tray.add(trayIcon);
+        // Alternativ MessageType.Info
+        trayIcon.displayMessage("StarkWood", text, TrayIcon.MessageType.INFO);
     }
 
     public static void main(String[] args) {

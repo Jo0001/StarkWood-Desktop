@@ -2,6 +2,7 @@ package de.Jo0001.StarkWood.Downloader;
 
 import de.Jo0001.StarkWood.Core.Main;
 
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -12,14 +13,29 @@ import java.net.UnknownHostException;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 
-public class Download {
+public class Download extends Thread {
     private static HttpURLConnection con;
+    int type;
+
+    public Download(int t) {
+        this.type = t;
+    }
+
+    public void run() {
+        try {
+            startDownload(type);
+        } catch (IOException | AWTException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * @param type Which type should be downloaded
      * @throws IOException Thrown when something with the url went wrong
      */
-    public static void startDownload(int type) throws IOException {
+    public static void startDownload(int type) throws IOException, AWTException {
         System.out.println("Laden . . .");
+        Main.alert("Download wurde gestartet");
         final URL myurl = new URL("https://www.dropbox.com/s/h3kvtvzy9i5kmr4/infos.starkwood?dl=1");
         con = (HttpURLConnection) myurl.openConnection();
         con.setDoOutput(true);
@@ -30,8 +46,9 @@ public class Download {
                 infos[i] = in.readLine();
             }
             con.disconnect();
-        } catch (UnknownHostException e) {
+        } catch (Exception e) {
             System.err.println("Keine Netzwerkverbindung!");
+            Main.alert("Keine Netzwerkverbindung!");
             e.printStackTrace();
         }
         System.out.print("Suche nach Updates: ");
@@ -40,32 +57,33 @@ public class Download {
         /*Infos[0] vanilla, [1]lite, [2]full, [7]date, [8] version*/
 
         String hash = null, link = null, mb = null;
-        if (type== 0) {
+        if (type == 0) {
             hash = infos[0];
             link = "https://www.dropbox.com/sh/x5moafif0w3mnfe/AACHeceFYOf_KcmwoOsfwUeWa?dl=1";
             mb = infos[3];
 
-        } else if (type==1) {
+        } else if (type == 1) {
             hash = infos[1];
             link = "https://www.dropbox.com/sh/8kdowv83vjar9qp/AABTJgGfb6ojW-Xi3H8300m6a?dl=1";
             mb = infos[4];
 
-        } else if (type==2) {
+        } else if (type == 2) {
             hash = infos[2];
             link = "https://www.dropbox.com/sh/q7r6vehzc3j1xrw/AADf9zH24QUF8yKFpww4WTbca?dl=1";
             mb = infos[5];
         }
         final URL dl_url = new URL(link);
 
-        System.out.println("Download von " + type + "(" + mb + "MB) mit hash " + hash + " gestartet . . .");
+        System.out.println("Download von " + type + " (" + mb + "MB) mit hash " + hash + " gestartet . . .");
 
         ReadableByteChannel rbc = Channels.newChannel(dl_url.openStream());
         FileOutputStream fos = new FileOutputStream(System.getenv("APPDATA") + "\\.minecraft\\server-resource-packs\\" + hash);
         fos.getChannel().transferFrom(rbc, 0, Integer.MAX_VALUE);
         fos.close();
         rbc.close();
-        Main.alert("Fertig");
+        Main.alert("Download fertig");
         System.out.println("Fertig");
+
     }
 
     public static void checkVersion(String ver) {
@@ -73,7 +91,7 @@ public class Download {
         if (cVer.equalsIgnoreCase(ver)) {
             System.out.println(" Aktuell");
         } else {
-            System.err.println("Veraltete Version, bitte downloade die neuste Version von LINK");
+            System.err.println("Veraltete Version, bitte downloade die neuste Version dieses Tools");
             System.exit(400);
         }
     }

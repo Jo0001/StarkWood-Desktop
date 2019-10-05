@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ProgressBar;
 
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -29,7 +30,7 @@ public class LoadingController implements Initializable {
         pgr.setProgress(0.1);
         try {
             Main.getInfo();
-        } catch (IOException e) {
+        } catch (IOException | AWTException e) {
             e.printStackTrace();
         }
 
@@ -55,7 +56,7 @@ public class LoadingController implements Initializable {
             con.disconnect();
         } catch (UnknownHostException e) {
             System.err.println("Keine Netzwerkverbindung!");
-            Main.alert("Keine Netzwerkverbindung :(");
+            //Main.alert("Keine Netzwerkverbindung :(");
             e.printStackTrace();
         }
         changeProgress(1);

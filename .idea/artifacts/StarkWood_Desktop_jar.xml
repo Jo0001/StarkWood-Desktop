@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="StarkWood-Desktop:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/StarkWood_Desktop_jar</output-path>
+    <root id="archive" name="StarkWood-Desktop.jar">
+      <element id="module-output" name="StarkWood-Desktop" />
+    </root>
+  </artifact>
+</component>
