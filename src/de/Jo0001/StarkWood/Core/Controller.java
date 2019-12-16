@@ -1,6 +1,7 @@
 package de.Jo0001.StarkWood.Core;
 
 import de.Jo0001.StarkWood.Downloader.Download;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -21,8 +22,10 @@ public class Controller implements Initializable {
         System.out.println("Controller loading");
     }
 
-    public void onBtnPress(ActionEvent buttonEvent) {
-        Download download = new Download(slc.getSelectionModel().getSelectedIndex());
+    public void onBtnPress(ActionEvent buttonEvent) throws InterruptedException {
+        btn.setText("Downloading...");
+        btn.setDisable(true);
+        Download download = new Download(slc.getSelectionModel().getSelectedIndex(), this);
         download.start();
     }
 
@@ -32,9 +35,19 @@ public class Controller implements Initializable {
         btn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                onBtnPress(actionEvent);
+                try {
+                    onBtnPress(actionEvent);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
 
+    public void test() {
+        Platform.runLater(() -> {
+            btn.setText("Herunterladen");
+            btn.setDisable(false);
+        });
+    }
 }

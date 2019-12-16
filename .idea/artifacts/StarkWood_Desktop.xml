@@ -1,0 +1,20 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" build-on-make="true" name="StarkWood-Desktop">
+    <output-path>$PROJECT_DIR$/out/artifacts/StarkWood_Desktop</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="de.Jo0001.StarkWood.Core.Main" />
+        <option name="description" value="" />
+        <option name="htmlPlaceholderId" value="" />
+        <option name="title" value="" />
+        <option name="vendor" value="" />
+        <option name="version" value="" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="StarkWood_Desktop.jar">
+        <element id="module-output" name="StarkWood-Desktop" />
+      </element>
+    </root>
+  </artifact>
+</component>
