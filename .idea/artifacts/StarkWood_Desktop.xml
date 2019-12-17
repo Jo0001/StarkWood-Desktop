@@ -3,11 +3,15 @@
     <output-path>$PROJECT_DIR$/out/artifacts/StarkWood_Desktop</output-path>
     <properties id="javafx-properties">
       <options>
-        <option name="appClass" value="de.Jo0001.StarkWood.Core.Main" />
+        <option name="alias" value="" />
+        <option name="appClass" value="de.Jo0001.StarkWood.Core.AppLauncher" />
+        <option name="convertCss2Bin" value="true" />
         <option name="description" value="" />
         <option name="htmlPlaceholderId" value="" />
-        <option name="title" value="" />
-        <option name="vendor" value="" />
+        <option name="keystore" value="" />
+        <option name="selfSigning" value="false" />
+        <option name="title" value="StarkWood" />
+        <option name="vendor" value="Jo0001" />
         <option name="version" value="" />
       </options>
     </properties>

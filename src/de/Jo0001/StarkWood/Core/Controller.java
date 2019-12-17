@@ -25,6 +25,7 @@ public class Controller implements Initializable {
     public void onBtnPress(ActionEvent buttonEvent) throws InterruptedException {
         btn.setText("Downloading...");
         btn.setDisable(true);
+        slc.setDisable(true);
         Download download = new Download(slc.getSelectionModel().getSelectedIndex(), this);
         download.start();
     }
@@ -47,6 +48,7 @@ public class Controller implements Initializable {
     public void test() {
         Platform.runLater(() -> {
             btn.setText("Herunterladen");
+            slc.setDisable(false);
             btn.setDisable(false);
         });
     }

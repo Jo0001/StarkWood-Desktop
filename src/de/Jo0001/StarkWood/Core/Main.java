@@ -81,5 +81,4 @@ public class Main extends Application {
         trayIcon.displayMessage("StarkWood", text, TrayIcon.MessageType.INFO);
     }
 
-
 }
