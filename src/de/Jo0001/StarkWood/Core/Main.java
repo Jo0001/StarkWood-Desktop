@@ -18,12 +18,11 @@ import java.net.URL;
 import java.net.UnknownHostException;
 
 public class Main extends Application {
-    private static HttpURLConnection con;
-    static final FXMLLoader loader = new FXMLLoader();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Controller controller = loader.getController();
+        FXMLLoader loader = new FXMLLoader();
+        final Controller controller = loader.getController();
         loader.setController(controller);
 
         Parent root = loader.load(getClass().getResource("/fxml/main.fxml"));
@@ -39,7 +38,7 @@ public class Main extends Application {
     public void getInfo() throws IOException {
         System.out.println("Checking for updates...");
         final URL myurl = new URL("https://www.dropbox.com/s/h3kvtvzy9i5kmr4/infos.starkwood?dl=1");
-        con = (HttpURLConnection) myurl.openConnection();
+        HttpURLConnection con = (HttpURLConnection) myurl.openConnection();
         con.setDoOutput(true);
         String[] infos = new String[8];
         try (BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
@@ -55,15 +54,15 @@ public class Main extends Application {
         }
         final String cVer = "1.2";
         if (cVer.equalsIgnoreCase(infos[7])) {
-            System.out.println(cVer+" is already the newest version");
+            System.out.println(cVer + " is already the newest version");
         } else {
-            System.err.println("Outdated version, please download the new "+infos[7]+"version");
+            System.err.println("Outdated version, please download the new " + infos[7] + "version");
             localAlert("Veraltete Version, bitte downloade die neuste Version dieses Tools");
             System.exit(-99);
         }
     }
 
-    public void localAlert(String mes){
+    public void localAlert(String mes) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setHeaderText(null);
         alert.setContentText(mes);
@@ -82,7 +81,5 @@ public class Main extends Application {
         trayIcon.displayMessage("StarkWood", text, TrayIcon.MessageType.INFO);
     }
 
-    public static void main(String[] args) {
-        Application.launch(Main.class);
-    }
+
 }
