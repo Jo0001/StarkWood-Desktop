@@ -14,7 +14,7 @@ import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
     @FXML
-    public Button btn;
+    Button btn;
     @FXML
     ChoiceBox slc;
 
@@ -22,7 +22,7 @@ public class Controller implements Initializable {
         System.out.println("Controller loading");
     }
 
-    public void onBtnPress(ActionEvent buttonEvent) throws InterruptedException {
+    public void onBtnPress(ActionEvent buttonEvent) {
         btn.setText("Downloading...");
         btn.setDisable(true);
         slc.setDisable(true);
@@ -36,16 +36,12 @@ public class Controller implements Initializable {
         btn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                try {
-                    onBtnPress(actionEvent);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                onBtnPress(actionEvent);
             }
         });
     }
 
-    public void test() {
+    public void reset() {
         Platform.runLater(() -> {
             btn.setText("Herunterladen");
             slc.setDisable(false);

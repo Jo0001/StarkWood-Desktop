@@ -1,7 +1,6 @@
 package de.Jo0001.StarkWood.Downloader;
 
 import de.Jo0001.StarkWood.Core.Controller;
-import de.Jo0001.StarkWood.Core.Main;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
@@ -20,8 +19,8 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 
 public class Download extends Thread {
-    private static HttpURLConnection con;
-    Controller controller;
+    private HttpURLConnection con;
+    private Controller controller;
     int type;
 
     public Download(int t, Controller controller) {
@@ -43,7 +42,7 @@ public class Download extends Thread {
      */
     public void startDownload(int type) throws IOException, AWTException {
         System.out.println("Fetching info...");
-        Main.sendTray("Download wurde gestartet");
+        //Main.sendTray("Download wurde gestartet");
         final URL myurl = new URL("https://www.dropbox.com/s/h3kvtvzy9i5kmr4/infos.starkwood?dl=1");
         con = (HttpURLConnection) myurl.openConnection();
         con.setDoOutput(true);
@@ -56,7 +55,8 @@ public class Download extends Thread {
             con.disconnect();
         } catch (UnknownHostException | SocketTimeoutException e) {
             System.err.println("No network connection!");
-            alert("Keine Netzwerkverbindung!", Alert.AlertType.ERROR);
+            alert("StarkWood - Error ","Keine Netzwerkverbindung!", Alert.AlertType.ERROR);
+            controller.reset();
             e.printStackTrace();
         }
 
@@ -88,15 +88,15 @@ public class Download extends Thread {
         fos.close();
         rbc.close();
 
-        alert("Download fertig :)", Alert.AlertType.INFORMATION);
+        alert("StarkWood - Download fertig","Download fertig :)", Alert.AlertType.INFORMATION);
         System.out.println("Done");
-        controller.test();
-
+        controller.reset();
     }
 
-    private void alert(String mes, Alert.AlertType alertType) {
+    private void alert(String title,String mes, Alert.AlertType alertType) {
         Platform.runLater(() -> {
             Alert alert = new Alert(alertType);
+            alert.setTitle(title);
             alert.setHeaderText(null);
             alert.setContentText(mes);
             Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();

@@ -1,10 +1,20 @@
-#loadScreen {
--fx-background-color: #717d7e;
+#mainScreen {
+    -fx-background-color: #717d7e;
+    -fx-background-image: url("/background.png");
+    -fx-background-position: left top;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
 }
-#mainScreen{
--fx-background-color: #717d7e;
--fx-background-image: url("/background.png");
--fx-background-position: left top;
--fx-background-repeat: no-repeat;
--fx-background-size: cover;
+
+#btn, #slc {
+    -fx-background-color: rgba(255, 255, 255, 0.86);
+}
+
+#btn:hover, #slc:hover {
+    -fx-background-color: rgba(0, 134, 31, 0.92);
+}
+
+#btn:disabled, #slc:disabled {
+    -fx-background-color: rgba(175, 175, 175, 0.86);
+    -fx-opacity: 1;
 }
