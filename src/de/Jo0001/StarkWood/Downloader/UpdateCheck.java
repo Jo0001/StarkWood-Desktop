@@ -33,7 +33,7 @@ public class UpdateCheck extends Thread {
                 infos[i] = in.readLine();
             }
             con.disconnect();
-            final String cVer = "1.2";
+            final String cVer = "1.3";
             if (cVer.equalsIgnoreCase(infos[7])) {
                 System.out.println(cVer + " is already the newest version");
             } else {
