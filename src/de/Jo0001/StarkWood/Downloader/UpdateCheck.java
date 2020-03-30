@@ -13,6 +13,7 @@ import java.io.InputStreamReader;
 import java.net.*;
 import java.util.Optional;
 
+
 public class UpdateCheck extends Thread {
     public void run() {
         try {
@@ -22,7 +23,7 @@ public class UpdateCheck extends Thread {
         }
     }
 
-    private void getInfo() throws IOException {
+    private static void getInfo() throws IOException {
         System.out.println("Checking for updates...");
         final URL myurl = new URL("https://www.dropbox.com/s/h3kvtvzy9i5kmr4/infos.starkwood?dl=1");
         HttpURLConnection con = (HttpURLConnection) myurl.openConnection();
@@ -33,9 +34,14 @@ public class UpdateCheck extends Thread {
                 infos[i] = in.readLine();
             }
             con.disconnect();
-            final String cVer = "1.3";
-            if (cVer.equalsIgnoreCase(infos[7])) {
-                System.out.println(cVer + " is already the newest version");
+            //Store the hash values for later
+            Store.hash1 = infos[0];
+            Store.hash2 = infos[1];
+            Store.hash3 = infos[2];
+
+            final double currentVersion = 1.4;
+            if (currentVersion == Double.parseDouble(infos[7])) {
+                System.out.println(currentVersion + " is already the newest version");
             } else {
                 System.err.println("Outdated version, please download the new " + infos[7] + " version");
                 localAlert("StarkWood - Veraltete Version", "Veraltete Version, klicke auf OK um die Downloadseite zu öffnen", Alert.AlertType.CONFIRMATION);
@@ -48,7 +54,7 @@ public class UpdateCheck extends Thread {
 
     }
 
-    private void localAlert(String title, String mes, Alert.AlertType type) {
+    private static void localAlert(String title, String mes, Alert.AlertType type) {
         Platform.runLater(() -> {
             Alert alert = new Alert(type);
             if (type == Alert.AlertType.CONFIRMATION) {
@@ -58,7 +64,7 @@ public class UpdateCheck extends Thread {
             alert.setHeaderText(null);
             alert.setContentText(mes);
             Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-            stage.getIcons().add(new Image(getClass().getResourceAsStream("/icon.png")));
+            stage.getIcons().add(new Image(UpdateCheck.class.getResourceAsStream("/icon.png")));
             if (type == Alert.AlertType.CONFIRMATION) {
                 Optional<ButtonType> result = alert.showAndWait();
                 if ((result.isPresent()) && (result.get() == ButtonType.OK)) {

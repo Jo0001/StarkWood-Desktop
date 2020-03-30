@@ -36,36 +36,39 @@ public class Download extends Thread {
      * @throws IOException Thrown when something with the url went wrong
      */
     private void startDownload(int type) throws IOException {
-        System.out.println("Fetching info...");
-        //Main.sendTray("Download wurde gestartet");
-        final URL myurl = new URL("https://www.dropbox.com/s/h3kvtvzy9i5kmr4/infos.starkwood?dl=1");
-        HttpURLConnection con = (HttpURLConnection) myurl.openConnection();
-        con.setDoOutput(true);
 
-        String[] infos = new String[8];
-        try (BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
-            for (int i = 0; i < infos.length; i++) {
-                infos[i] = in.readLine();
+        if(Store.hash1 == null){
+            System.out.println("Fetching info...");
+            final URL myurl = new URL("https://www.dropbox.com/s/h3kvtvzy9i5kmr4/infos.starkwood?dl=1");
+            HttpURLConnection con = (HttpURLConnection) myurl.openConnection();
+            con.setDoOutput(true);
+            String[] infos = new String[8];
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
+                for (int i = 0; i < infos.length; i++) {
+                    infos[i] = in.readLine();
+                }
+                con.disconnect();
+                Store.hash1 = infos[0];
+                Store.hash2 = infos[1];
+                Store.hash3 = infos[2];
+            } catch (UnknownHostException | SocketTimeoutException e) {
+                System.err.println("No network connection!");
+                alert("StarkWood - Error ", "Keine Netzwerkverbindung!", Alert.AlertType.ERROR);
+                controller.reset();
+                e.printStackTrace();
             }
-            con.disconnect();
-        } catch (UnknownHostException | SocketTimeoutException e) {
-            System.err.println("No network connection!");
-            alert("StarkWood - Error ", "Keine Netzwerkverbindung!", Alert.AlertType.ERROR);
-            controller.reset();
-            e.printStackTrace();
         }
-
-        /*Infos[0] vanilla, [1]lite, [2]full, [8] version*/
+        /*Infos[0] vanilla, [1]lite, [2]full, [7] version*/
 
         String hash = null, link = null;
         if (type == 0) {
-            hash = infos[0];
+            hash =Store.hash1;
             link = "https://www.dropbox.com/s/43qat7lqff29uf9/vanilla.zip?dl=1";
         } else if (type == 1) {
-            hash = infos[1];
+            hash =Store.hash2;
             link = "https://www.dropbox.com/s/y034ryp3ucw1p8q/lite.zip?dl=1";
         } else if (type == 2) {
-            hash = infos[2];
+            hash = Store.hash3;
             link = "https://www.dropbox.com/s/tftwxa1190zcdd6/full%2B%2B.zip?dl=1";
         }
         final URL dl_url = new URL(link);
