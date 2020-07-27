@@ -22,12 +22,20 @@ public class Controller implements Initializable {
         System.out.println("Controller loading");
     }
 
-    public void onBtnPress(ActionEvent buttonEvent) {
+    private void onBtnPress(ActionEvent buttonEvent) {
         btn.setText("Downloading...");
         btn.setDisable(true);
         slc.setDisable(true);
-        Download download = new Download(slc.getSelectionModel().getSelectedIndex(), this);
-        download.start();
+        int type =slc.getSelectionModel().getSelectedIndex();
+        if(type !=3) {
+            Download download = new Download(type, this);
+            download.start();
+        }else {
+            for (int i = 0; i < 3; i++) {
+                Download download = new Download(i, this);
+                download.start();
+            }
+        }
     }
 
     @Override

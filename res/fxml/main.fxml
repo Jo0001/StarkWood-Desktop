@@ -1,25 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import javafx.scene.paint.*?>
 <?import java.lang.*?>
 <?import javafx.collections.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="mainScreen" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.Jo0001.StarkWood.Core.Controller">
+<BorderPane fx:id="mainScreen" prefHeight="235.0" prefWidth="310.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.Jo0001.StarkWood.Core.Controller">
     <center>
         <AnchorPane prefHeight="-1.0" prefWidth="-1.0">
             <children>
-                <Button fx:id="btn" layoutX="189.0" layoutY="138.0" mnemonicParsing="false" text="Herunterladen"/>
+                <Button fx:id="btn" layoutX="189.0" layoutY="138.0" mnemonicParsing="false" text="Herunterladen" />
                 <ChoiceBox fx:id="slc" layoutX="25.0" layoutY="138.0" prefWidth="150.0" value="Vanilla">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
-                            <String fx:value="Vanilla"/>
-                            <String fx:value="Lite"/>
-                            <String fx:value="Full"/>
+                            <String fx:value="Vanilla" />
+                            <String fx:value="Lite" />
+                            <String fx:value="Full" />
+                            <String fx:value="All" />
                         </FXCollections>
                     </items>
                 </ChoiceBox>
+            <Label layoutX="288.0" layoutY="213.0" text="1.6" textFill="#007c04">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
             </children>
         </AnchorPane>
     </center>

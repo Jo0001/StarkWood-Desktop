@@ -5,6 +5,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -18,32 +22,37 @@ public class UpdateCheck extends Thread {
     public void run() {
         try {
             getInfo();
-        } catch (IOException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
     }
 
-    private static void getInfo() throws IOException {
+    public static void getInfo() throws IOException, ParseException {
         System.out.println("Checking for updates...");
-        final URL myurl = new URL("https://www.dropbox.com/s/h3kvtvzy9i5kmr4/infos.starkwood?dl=1");
-        HttpURLConnection con = (HttpURLConnection) myurl.openConnection();
-        con.setDoOutput(true);
-        String[] infos = new String[8];
-        try (BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
-            for (int i = 0; i < infos.length; i++) {
-                infos[i] = in.readLine();
-            }
+        final URL myurl = new URL("https://www.dropbox.com/s/7jweb1pqmza0twk/data.json?dl=1");
+        try {
+            HttpURLConnection con = (HttpURLConnection) myurl.openConnection();
+            con.setDoOutput(true);
+            BufferedReader bufReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            JSONParser parser = new JSONParser();
+            Object object = parser.parse(bufReader);
             con.disconnect();
-            //Store the hash values for later
-            Store.hash1 = infos[0];
-            Store.hash2 = infos[1];
-            Store.hash3 = infos[2];
+            JSONObject json = (JSONObject) object;
+            JSONArray hashlist = (JSONArray) json.get("hashlist");
 
-            final double currentVersion = 1.4;
-            if (currentVersion == Double.parseDouble(infos[7])) {
-                System.out.println(currentVersion + " is already the newest version");
+            //Store the hash values for later
+            Store.hash1 = hashlist.get(0).toString();
+            Store.hash2 = hashlist.get(1).toString();
+            Store.hash3 = hashlist.get(2).toString();
+
+            final double currentVersion = 1.6;//note also change version in main.fxml
+
+            if (currentVersion == Double.parseDouble(json.get("version").toString())) {
+                System.out.println(currentVersion + " is already the latest version");
+            } else if (currentVersion > Double.parseDouble(json.get("version").toString())) {
+                System.out.println("Wow thats a newer version than released");
             } else {
-                System.err.println("Outdated version, please download the new " + infos[7] + " version");
+                System.err.println("Outdated version, please download the new " + json.get("version") + " version");
                 localAlert("StarkWood - Veraltete Version", "Veraltete Version, klicke auf OK um die Downloadseite zu öffnen", Alert.AlertType.CONFIRMATION);
             }
         } catch (UnknownHostException | SocketTimeoutException e) {
