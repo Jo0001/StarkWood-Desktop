@@ -44,8 +44,9 @@ public class UpdateCheck extends Thread {
             Store.hash1 = hashlist.get(0).toString();
             Store.hash2 = hashlist.get(1).toString();
             Store.hash3 = hashlist.get(2).toString();
+            Store.hash4 = hashlist.get(3).toString();
 
-            final double currentVersion = 1.6;//note also change version in main.fxml
+            final double currentVersion = 1.7;//note also change version in main.fxml
 
             if (currentVersion == Double.parseDouble(json.get("version").toString())) {
                 System.out.println(currentVersion + " is already the latest version");

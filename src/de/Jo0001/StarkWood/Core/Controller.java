@@ -27,7 +27,7 @@ public class Controller implements Initializable {
         btn.setDisable(true);
         slc.setDisable(true);
         int type =slc.getSelectionModel().getSelectedIndex();
-        if(type !=3) {
+        if(type !=4) {
             Download download = new Download(type, this);
             download.start();
         }else {

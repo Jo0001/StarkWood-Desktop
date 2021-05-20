@@ -49,6 +49,9 @@ public class Download extends Thread {
         } else if (type == 2) {
             hash = Store.hash3;
             link = "https://www.dropbox.com/s/tftwxa1190zcdd6/full%2B%2B.zip?dl=1";
+        } else if (type == 3) {
+            hash = Store.hash4;
+            link = "https://www.dropbox.com/s/07a6fqdw3ztv4n3/Extreme.zip?dl=1";
         }
         final URL dl_url = new URL(link);
 
